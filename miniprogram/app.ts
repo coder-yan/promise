@@ -18,10 +18,8 @@ App<IAppOption>({
     })
 
     wx.getSetting({
-      
+
     })
-
-
   },
 
   onShow() {
