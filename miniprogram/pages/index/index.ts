@@ -52,11 +52,16 @@ Page({
       motto: 'button clicked'
     })
   },
+
+  count: 0,
   updateMotto() {
-    for(let i = 0; i < 10000; i++){
-      // setData函数比较耗时，不要频繁地调用
+    this.count++
+    if (this.count < 10000) {
+      // setData返回以后才再次调用
       this.setData({
-        motto: `update count ${i}`
+        motto: `update count ${this.count}`
+      }, () => {
+        this.updateMotto()
       })
     }
   }
