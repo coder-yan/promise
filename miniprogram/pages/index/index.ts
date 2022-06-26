@@ -54,6 +54,7 @@ Page({
   },
   updateMotto() {
     for(let i = 0; i < 10000; i++){
+      // setData函数比较耗时，不要频繁地调用
       this.setData({
         motto: `update count ${i}`
       })
