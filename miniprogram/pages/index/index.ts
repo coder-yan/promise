@@ -3,8 +3,6 @@
 const app = getApp<IAppOption>()
 
 Page({
-  count: 0,
-  shouldStop: false,
   data: {
     motto: 'Hello World from vscode',
     userInfo: {},
@@ -29,9 +27,6 @@ Page({
       })
     }
 
-    setTimeout(() => {
-      this.shouldStop = true
-    }, 10000);
     this.updateMotto()
   },
   getUserProfile() {
@@ -60,13 +55,24 @@ Page({
   },
 
   updateMotto() {
-    this.count++
-    if (!this.shouldStop) {
-      this.setData({
-        motto: `update count ${this.count}`
-      }, () => {
-        this.updateMotto()
-      })
+    let shouldStop = false
+    let count = 0
+    
+    setTimeout(() => {
+      shouldStop = true
+    }, 10000);
+
+    const update = () => {
+      count++
+      if (!shouldStop) {
+        this.setData({
+          motto: `update count ${count}`
+        }, () => {
+          update()
+        })
+      }
     }
+
+    update()
   }
 })

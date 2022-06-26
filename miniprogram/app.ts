@@ -4,6 +4,7 @@ App<IAppOption>({
 
   onLaunch(opt) {
     console.log('lifecycle: app onLaunch')
+    console.log(opt)
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
