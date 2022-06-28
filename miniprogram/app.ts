@@ -1,3 +1,5 @@
+import { getSetting, getUserInfo } from "./utils/util"
+
 // app.ts
 App<IAppOption>({
   globalData: {},
@@ -17,21 +19,38 @@ App<IAppOption>({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       },
     })
-
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']){
-          wx.getUserInfo({
-            success: res => {
-              this.globalData.userInfo = res.userInfo
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        }
+    
+    // 获取用户信息 Promise版
+    getSetting().then(res => {
+      if (res.authSetting['scope.userInfo']) {
+          return getUserInfo()
+      }
+      return Promise.resolve(undefined)
+    }).then(res => {
+      if (!res) {
+        return 
+      }
+      this.globalData.userInfo = res?.userInfo
+      if (this.userInfoReadyCallback) {
+        this.userInfoReadyCallback(res)
       }
     })
+
+    // 获取用户信息，callback版
+  //   wx.getSetting({
+  //     success: res => {
+  //       if (res.authSetting['scope.userInfo']){
+  //         wx.getUserInfo({
+  //           success: res => {
+  //             this.globalData.userInfo = res.userInfo
+  //             if (this.userInfoReadyCallback) {
+  //               this.userInfoReadyCallback(res)
+  //             }
+  //           }
+  //         })
+  //       }
+  //     }
+  //   })
   },
 
   onShow() {
