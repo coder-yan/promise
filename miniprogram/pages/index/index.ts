@@ -7,7 +7,8 @@ Page({
     motto: 'Hello World from vscode',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    // canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    // canIUse: false,
     canIUseGetUserProfile: false,
     // 如需尝试获取用户信息可改为false
     canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName')
@@ -15,20 +16,29 @@ Page({
   },
   // 事件处理函数
   bindViewTap() {
-    wx.navigateTo({
-      url: '../logs/logs?color=blue',
-    })
+    // wx.navigateTo({
+    //   url: '../logs/logs?color=blue',
+    // })
     // console.log('tapped')
+
+    this.getUserProfile()
   },
   onLoad() {
-    // @ts-ignore
-    if (wx.getUserProfile) {
-      this.setData({
-        canIUseGetUserProfile: true
+      // // @ts-ignore
+      // if (wx.getUserProfile) {
+      //   this.setData({
+      //     canIUseGetUserProfile: true
+      //   })
+      // }
+      console.log("index onLoad")
+      app.globalData.userInfo.then(userInfo => {
+        this.setData({
+          userInfo: userInfo,
+          hasUserInfo: true
+        })
       })
-    }
 
-    // this.updateMotto()
+      // this.updateMotto()
   },
   getUserProfile() {
     wx.getUserProfile({
