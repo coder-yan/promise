@@ -1,22 +1,14 @@
 import { getSetting, getUserInfo } from "./utils/util"
 
+let resolveUserInfo: (value: WechatMiniprogram.UserInfo | PromiseLike<WechatMiniprogram.UserInfo>) => void
+let rejectUserInfo:(reason?: any) => void
+
 // app.ts
 App<IAppOption>({
   globalData: {
     userInfo: new Promise((resolve, reject) => {
-      // 获取用户信息 Promise版
-      getSetting().then(res => {
-        if (res.authSetting['scope.userInfo']) {
-          return getUserInfo()
-        }
-        return Promise.resolve(undefined)
-      }).then(res => {
-        if (!res) {
-          return
-        }
-        
-        resolve(res.userInfo)
-      }).catch(err => reject(err))
+       resolveUserInfo = resolve
+       rejectUserInfo = reject
     })
   },
 
@@ -36,6 +28,18 @@ App<IAppOption>({
       },
     })
 
+    getSetting().then(res => {
+      if (res.authSetting['scope.userInfo']) {
+        return getUserInfo()
+      }
+      return Promise.resolve(undefined)
+    }).then(res => {
+      if (!res) {
+        return
+      }
+      
+      resolveUserInfo(res.userInfo)
+    }).catch(err => rejectUserInfo(err))
 
     // 获取用户信息，callback版
     //   wx.getSetting({
