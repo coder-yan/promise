@@ -16,12 +16,12 @@ Page({
   },
   // 事件处理函数
   bindViewTap() {
-    // wx.navigateTo({
-    //   url: '../logs/logs?color=blue',
-    // })
-    // console.log('tapped')
+    wx.navigateTo({
+      url: '../logs/logs?color=blue',
+    })
+    console.log('tapped')
 
-    this.getUserProfile()
+    // this.getUserProfile()
   },
   onLoad() {
       // // @ts-ignore
@@ -54,10 +54,9 @@ Page({
   },
   getUserInfo(e: any) {
     console.log(e)
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
+
+    const userInfo: WechatMiniprogram.UserInfo = e.detail.userInfo
+    app.resolveUserInfo(userInfo)
   },
   onBtnTap: function() {
     this.setData({

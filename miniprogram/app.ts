@@ -28,18 +28,18 @@ App<IAppOption>({
       },
     })
 
-    getSetting().then(res => {
-      if (res.authSetting['scope.userInfo']) {
-        return getUserInfo()
-      }
-      return Promise.resolve(undefined)
-    }).then(res => {
-      if (!res) {
-        return
-      }
+    // getSetting().then(res => {
+    //   if (res.authSetting['scope.userInfo']) {
+    //     return getUserInfo()
+    //   }
+    //   return Promise.resolve(undefined)
+    // }).then(res => {
+    //   if (!res) {
+    //     return
+    //   }
       
-      resolveUserInfo(res.userInfo)
-    }).catch(err => rejectUserInfo(err))
+    //   resolveUserInfo(res.userInfo)
+    // }).catch(err => rejectUserInfo(err))
 
     // 获取用户信息，callback版
     //   wx.getSetting({
@@ -66,5 +66,10 @@ App<IAppOption>({
     console.log('lifecycle: app onHide')
 
   },
+
+  resolveUserInfo(userInfo: WechatMiniprogram.UserInfo) {
+    this.resolveUserInfo(userInfo)
+    
+  }
 
 })
