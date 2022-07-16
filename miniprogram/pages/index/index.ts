@@ -19,6 +19,7 @@ Page({
     wx.navigateTo({
       url: '../logs/logs?color=blue',
     })
+    
     console.log('tapped')
 
     // this.getUserProfile()
